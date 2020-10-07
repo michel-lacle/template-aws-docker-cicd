@@ -12,3 +12,22 @@ variable "repository_name" {
   type = string
   description = "the name of the codecommit repository"
 }
+
+variable "aws_default_region" {
+  type = string
+}
+
+
+variable "aws_account_id" {
+  type = string
+}
+
+
+variable "image_repo_name" {
+  type = string
+}
+
+
+variable "image_tag" {
+  type = string
+}

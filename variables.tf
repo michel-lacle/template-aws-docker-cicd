@@ -12,5 +12,9 @@ variable "application_name" {
 #
 variable "application_code_reponame" {
   type = string
-  default = "cool_webapp"
+  default = "template-aws-docker-image"
+}
+
+variable "aws_account_id" {
+  type = number
 }

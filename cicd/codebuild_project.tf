@@ -71,6 +71,24 @@ data "aws_iam_policy_document" "codebuild" {
       "arn:aws:codebuild:us-east-1:*:report-group/*"
     ]
   }
+
+  // allow code build to access ECR
+    statement {
+    actions = [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:CompleteLayerUpload",
+        "ecr:GetAuthorizationToken",
+        "ecr:InitiateLayerUpload",
+        "ecr:PutImage",
+        "ecr:UploadLayerPart"
+    ]
+
+    effect = "Allow"
+
+    resources = [
+      "*"
+    ]
+  }
 }
 
 resource "aws_iam_role_policy" "codebuild" {
@@ -102,6 +120,28 @@ resource "aws_codebuild_project" "this" {
     image = "aws/codebuild/standard:4.0"
     type = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
+
+    privileged_mode = true
+
+    environment_variable {
+      name = "AWS_DEFAULT_REGION"
+      value = var.aws_default_region
+    }
+
+    environment_variable {
+      name = "AWS_ACCOUNT_ID"
+      value = var.aws_account_id
+    }
+
+    environment_variable {
+      name = "IMAGE_REPO_NAME"
+      value = var.image_repo_name
+    }
+
+    environment_variable {
+      name = "IMAGE_TAG"
+      value = var.image_tag
+    }
   }
 
   tags = {
