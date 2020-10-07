@@ -91,25 +91,6 @@ resource "aws_codepipeline" "this" {
     }
   }
 
-  stage {
-    name = "Deploy"
-
-    action {
-      name = "Deploy"
-      category = "Deploy"
-      owner = "AWS"
-      provider = "CodeDeploy"
-      input_artifacts = [
-        "BuildArtifact"]
-      version = "1"
-
-      configuration = {
-        ApplicationName = aws_codedeploy_app.this.name
-        DeploymentGroupName = aws_codedeploy_deployment_group.this.deployment_group_name
-      }
-    }
-  }
-
   tags = {
     Application = var.application_name
   }
